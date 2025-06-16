@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Scoreboard</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: Arial, sans-serif;
+      background: #f0f4f8;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      padding: 20px;
+    }
+
+    .container {
+      background: white;
+      padding: 30px;
+      border-radius: 10px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+      text-align: center;
+      max-width: 400px;
+      width: 100%;
+    }
+
+    .score-display {
+      font-size: 80px;
+      font-weight: bold;
+      margin-bottom: 10px;
+    }
+
+    h4 {
+      margin-bottom: 20px;
+      font-size: 18px;
+    }
+
+    input[type="number"] {
+      width: 100%;
+      padding: 10px;
+      font-size: 16px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      margin-bottom: 20px;
+    }
+
+    .buttons {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      justify-content: center;
+    }
+
+    button {
+      padding: 10px 20px;
+      font-size: 16px;
+      border: none;
+      border-radius: 5px;
+      color: white;
+      cursor: pointer;
+    }
+
+    .btn {
+      background-color: green;
+    }
+
+    .btn2 {
+      background-color: #6c757d;
+    }
+
+    .btn3 {
+      background-color: red;
+    }
+
+    @media (max-width: 500px) {
+      .score-display {
+        font-size: 50px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1 class="score-display">
+      <span id="p1scoredisplay">0</span> - <span id="p2scoredisplay">0</span>
+    </h1>
+    <h4>Playing to: <span id="winscore">5</span></h4>
+
+    <input type="number" id="scoreLimitInput" placeholder="Set winning score" />
+
+    <div class="buttons">
+      <button class="btn" id="player1Btn">Player One</button>
+      <button class="btn3" id="player2Btn">Player Two</button>
+      <button class="btn2" id="resetBtn">Reset</button>
+    </div>
+  </div>
+
+  <script>
+    const p1Display = document.getElementById('p1scoredisplay');
+    const p2Display = document.getElementById('p2scoredisplay');
+    const winScoreDisplay = document.getElementById('winscore');
+    const input = document.getElementById('scoreLimitInput');
+    const p1Btn = document.getElementById('player1Btn');
+    const p2Btn = document.getElementById('player2Btn');
+    const resetBtn = document.getElementById('resetBtn');
+
+    let p1Score = 0;
+    let p2Score = 0;
+    let gameOver = false;
+    let winningScore = 5;
+
+    input.addEventListener('change', () => {
+      winningScore = parseInt(input.value) || 5;
+      winScoreDisplay.textContent = winningScore;
+      reset();
+    });
+
+    p1Btn.addEventListener('click', () => {
+      if (!gameOver) {
+        p1Score++;
+        updateScores();
+      }
+    });
+
+    p2Btn.addEventListener('click', () => {
+      if (!gameOver) {
+        p2Score++;
+        updateScores();
+      }
+    });
+
+    resetBtn.addEventListener('click', reset);
+
+    function updateScores() {
+      p1Display.textContent = p1Score;
+      p2Display.textContent = p2Score;
+
+      if (p1Score === winningScore || p2Score === winningScore) {
+        gameOver = true;
+        if (p1Score === winningScore) {
+          p1Display.style.color = 'green';
+          p2Display.style.color = 'black';
+        } else {
+          p2Display.style.color = 'green';
+          p1Display.style.color = 'black';
+        }
+      }
+    }
+
+    function reset() {
+      gameOver = false;
+      p1Score = 0;
+      p2Score = 0;
+      p1Display.textContent = 0;
+      p2Display.textContent = 0;
+      p1Display.style.color = 'black';
+      p2Display.style.color = 'black';
+    }
+  </script>
+</body>
+</html>
